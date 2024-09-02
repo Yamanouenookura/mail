@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init('tWkeNvDARcriEUm5p'); // ここにあなたのパブリックキーを入力します
+        })();
+    </script>
+    <script type="text/javascript">
+        window.onload = function() {
+            document.getElementById('contact-form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                // generate a five digit number for the contact_number variable
+                this.contact_number.value = Math.random() * 100000 | 0;
+                // these IDs from the previous steps
+                emailjs.sendForm('service_z5cygwp', 'template_e6oc0f6', this)
+                    .then(function() {
+                        console.log('SUCCESS!');
+                        alert('お問い合わせが正常に送信されました！');
+                    }, function(error) {
+                        console.log('FAILED...', error);
+                        alert('送信に失敗しました。もう一度お試しください。');
+                    });
+            });
+        }
+    </script>
+</head>
+<body>
+    <form id="contact-form">
+        <input type="hidden" name="contact_number">
+        <label>Name</label>
+        <input type="text" name="user_name" required>
+        <label>Email</label>
+        <input type="email" name="user_email" required>
+        <label>Message</label>
+        <textarea name="message" required></textarea>
+        <input type="submit" value="Send">
+    </form>
+</body>
+</html>
